@@ -44,16 +44,16 @@ const cardTemplate = pageContainer.querySelector('#card-template').content;
 // @todo: Функция создания карточки
 
 
-function createCard(name, link, deliteCard, likeCard, popupImg) {
+function createCard(initialCards, deliteCard, likeCard, popupImg) {
 
   const cardsElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardsElement.querySelector('.card__image');
   const deleteButtonCard = cardsElement.querySelector('.card__delete-button');
   const likeButtonCard = cardsElement.querySelector('.card__like-button');
   
-  cardsElement.querySelector('.card__title').textContent = name;
-  cardsElement.querySelector('.card__image').src = link;
-  cardsElement.querySelector('.card__image').alt = name;
+  cardsElement.querySelector('.card__title').textContent = initialCards.name;
+  cardsElement.querySelector('.card__image').src = initialCards.link;
+  cardsElement.querySelector('.card__image').alt = initialCards.name;
   
   deleteButtonCard.addEventListener('click', (evt) => deliteCard(evt));
   
@@ -81,7 +81,7 @@ function deliteCard(evt) {
 
 function showCards() {
   for (let i = 0; i < initialCards.length; i++) {
-    cardsContainer.prepend(createCard(initialCards[i].name, initialCards[i].link, deliteCard, likeCard, popupImg));
+    cardsContainer.prepend(createCard(initialCards[i], deliteCard, likeCard, popupImg));
     }
 }
 
