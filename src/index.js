@@ -1,8 +1,4 @@
-console.log('Hello, World!')
-const numbers = [2, 3, 5];
 
-const doubledNumbers = numbers.map(number => number * 2);
-
-console.log(doubledNumbers); 
-
-@import '../../pages/index.css';
+import './pages/index.css';
+import './scripts/index.js';
+import './scripts/dopModalFunction.js';
