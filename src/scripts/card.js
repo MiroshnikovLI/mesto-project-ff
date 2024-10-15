@@ -1,8 +1,4 @@
-import { pageContainer } from "./modal.js";
-
-// @todo: DOM узлы
-
-const cardTemplate = pageContainer.querySelector("#card-template").content;
+import { cardTemplate } from "./constant.js";
 
 // @todo: Функция лайка карточки
 

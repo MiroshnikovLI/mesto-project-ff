@@ -1,6 +1,4 @@
 import {
-  openPopup,
-  pageContainer,
   formEditProfile,
   cardsContainer,
   inputName,
@@ -8,25 +6,20 @@ import {
   profileName,
   profileDescription,
   formNewPlace,
-  closePopupThroughTheListener,
   newPlaceName,
   newLink,
   popupImages,
   newImage,
   titleImage,
-} from "./modal.js";
+  buttonNewCard,
+  buttonOpenEditProfileFrom,
+  popuppNewCard,
+  popupEditProfil,
+  buttonClosePoppap,
+} from "./constant.js";
+import { openPopup, closePopup } from "./modal.js";
 import { createCard, deliteCard, likeCard } from "./card.js";
 import { initialCards } from "./cards.js";
-
-// @todo: Темплейт карточки
-
-const buttonNewCard = pageContainer.querySelector(".profile__add-button");
-const buttonOpenEditProfileFrom = pageContainer.querySelector(
-  ".profile__edit-button",
-);
-const popuppNewCard = pageContainer.querySelector(".popup_type_new-card");
-const popupEditProfil = pageContainer.querySelector(".popup_type_edit");
-const buttonClosePoppap = pageContainer.querySelectorAll(".popup__close");
 
 // @todo: Слушатели событий
 
@@ -46,7 +39,7 @@ formNewPlace.addEventListener("submit", (evt) => submitAddCardForm(evt));
 
 buttonClosePoppap.forEach((btn) => {
   btn.addEventListener("click", (evt) => {
-    closePopupThroughTheListener(evt);
+    closePopup(evt);
   });
 });
 
@@ -58,7 +51,7 @@ function editProfile(evt, title, description) {
   profileName.textContent = title;
   profileDescription.textContent = description;
 
-  closePopupThroughTheListener(evt);
+  closePopup(evt);
 }
 
 // @todo: Функция изображения в попапе
@@ -85,7 +78,7 @@ function submitAddCardForm(evt) {
     createCard(newCard, deliteCard, likeCard, setImgPopup),
   );
 
-  closePopupThroughTheListener(evt);
+  closePopup(evt);
 
   evt.target.reset();
 }
