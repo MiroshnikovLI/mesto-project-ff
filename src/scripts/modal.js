@@ -9,30 +9,22 @@ export function openPopup(popup) {
 
 // @todo: Функция закрытия попап
 
-export function closePopup(evt) {
-  evt.target.closest(".popup_is-opened").classList.remove("popup_is-opened");
+export function closePopup(popup) {
+  popup.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closePopupEsc);
-  evt.target.removeEventListener("click", closePopupClick);
+  popup.removeEventListener("click", closePopupClick);
 }
 
 export function closePopupEsc(evt) {
   if (evt.key === "Escape") {
-    document
-      .querySelector(".popup_is-opened")
-      .removeEventListener("click", closePopupClick);
-    document.removeEventListener("keydown", closePopupEsc);
-    document
-      .querySelector(".popup_is-opened")
-      .classList.remove("popup_is-opened");
+    const openedPopup = document.querySelector(".popup_is-opened") ;
+    closePopup(openedPopup);
   }
 }
 
 export function closePopupClick(evt) {
   if (!evt.target.closest(".popup__content")) {
-    document
-      .querySelector(".popup_is-opened")
-      .removeEventListener("click", closePopupClick);
-    document.removeEventListener("keydown", closePopupEsc);
-    evt.target.closest(".popup_is-opened").classList.remove("popup_is-opened");
+    const openedPopup = document.querySelector(".popup_is-opened") ;
+    closePopup(openedPopup);
   }
 }

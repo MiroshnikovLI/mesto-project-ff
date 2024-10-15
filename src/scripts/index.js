@@ -39,7 +39,7 @@ formNewPlace.addEventListener("submit", (evt) => submitAddCardForm(evt));
 
 buttonClosePoppap.forEach((btn) => {
   btn.addEventListener("click", (evt) => {
-    closePopup(evt);
+    closePopup(evt.target.closest('.popup_is-opened'));
   });
 });
 
