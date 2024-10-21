@@ -51,7 +51,7 @@ function editProfile(evt, title, description) {
   profileName.textContent = title;
   profileDescription.textContent = description;
 
-  closePopup(evt);
+  closePopup(evt.target.closest('.popup_is-opened'));
 }
 
 // @todo: Функция изображения в попапе
@@ -78,7 +78,7 @@ function submitAddCardForm(evt) {
     createCard(newCard, deliteCard, likeCard, setImgPopup),
   );
 
-  closePopup(evt);
+  closePopup(evt.target.closest('.popup_is-opened'));
 
   evt.target.reset();
 }
