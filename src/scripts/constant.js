@@ -7,12 +7,20 @@ export const profileName = pageContainer.querySelector(".profile__title");
 export const profileDescription = pageContainer.querySelector(
   ".profile__description",
 );
+export const popupNewProfileImage = pageContainer.querySelector('.popup_edit_profile-image');
+export const profileImage = pageContainer.querySelector('.profile__image');
 export const formEditProfile = document.forms["edit-profile"];
 export const formNewPlace = document.forms["new-place"];
 export const inputName = formEditProfile.name;
 export const inputDescription = formEditProfile.description;
 export const newPlaceName = formNewPlace["place-name"];
 export const newLink = formNewPlace.link;
+export const errorConnect = pageContainer.querySelector('.error__connect');
+export const formDeleteCards = document.forms['delete-card'];
+export const popupDeleteCard = pageContainer.querySelector('.popup_delete-card');
+export const formEditProfileImage = document.forms['edit-image-profile'];
+export const inputEditProfileImage = formEditProfileImage.link;
+
 
 // @todo: Темплейт карточки
 

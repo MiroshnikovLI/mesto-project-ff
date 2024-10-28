@@ -1,0 +1,10 @@
+@import url('./block__error/block__eror.css');
+
+.error__connect {
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+}
