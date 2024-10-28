@@ -628,6 +628,7 @@ template {
 }
 
 .profile__image {
+  position: relative;
   width: 120px;
   height: 120px;
   -webkit-border-radius: 50%;
@@ -636,6 +637,18 @@ template {
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+}
+
+.profile__image:hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  background-image: url(a086f758840ae814ecde.svg);
+  background-color: rgba(0, 0, 0, .8);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 26px;
 }
 
 @media screen and (max-width: 740px) {
@@ -754,6 +767,10 @@ template {
   transition: 0.3s;
 }
 
+.card__delete-button_hidden {
+  display: none;
+}
+
 .card__delete-button:hover {
   opacity: 0.6;
 }
@@ -769,6 +786,16 @@ template {
   margin: 0;
 }
 
+.card__like-info {
+    min-height: 13px;
+    margin: 0 auto;
+    font-size: 13px;
+}
+.card__like {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 .card {
   font-family: "Inter", Arial, sans-serif;
   -webkit-border-radius: 10px;
@@ -926,6 +953,12 @@ template {
   display: block;
 }
 
+.popup__content_profile_image {
+    min-height: 272px;
+}
+.popup__content_delete-card {
+    min-height: 181px;
+}
 .popup {
   font-family: "Inter", Arial, sans-serif;
   display: none;
@@ -962,4 +995,20 @@ template {
 }
 
 
+
+.block__error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    font-size: 12px;
+}
+.error__connect {
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+}
 
