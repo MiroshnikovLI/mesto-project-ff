@@ -907,11 +907,12 @@ template {
 }
 
 .popup__button {
+  position: relative;
   width: 100%;
   height: 50px;
   font-size: 18px;
   line-height: 22px;
-  color: white;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -959,6 +960,22 @@ template {
 .popup__content_delete-card {
     min-height: 181px;
 }
+.popup__button-seve {
+    pointer-events: none;
+}
+  
+.popup__button-seve::after {
+    content: 'Сохранение...';
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 30px;
+    mix-blend-mode: multiply;
+    color: transparent;
+    background-clip: text;
+    animation: seve 1s linear infinite alternate;
+}
 .popup {
   font-family: "Inter", Arial, sans-serif;
   display: none;
@@ -994,7 +1011,73 @@ template {
     opacity 0.6s;
 }
 
+.load::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, .9);
+    z-index: 1; 
+}
 
+.load::after {
+    content: 'Загрузка...';
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    color: #fff;
+    font-size: 40px;
+    text-align: center;
+    z-index: 2;
+    opacity: 0;
+    animation: load 2s linear infinite;
+}
+@keyframes load {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes seve {
+    0% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 0%, rgba(255,255,255,1) 100%);
+    }
+    10% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 10%, rgba(255,255,255,1) 100%);
+    }
+    20% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 20%, rgba(255,255,255,1) 100%);
+    }
+    30% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 30%, rgba(255,255,255,1) 100%);
+    }
+    40% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 40%, rgba(255,255,255,1) 100%);
+    }
+    50% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 50%, rgba(255,255,255,1) 100%);
+    }
+    60% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 60%, rgba(255,255,255,1) 100%);
+    }
+    70% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 70%, rgba(255,255,255,1) 100%);
+    }
+    80% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 80%, rgba(255,255,255,1) 100%);
+    }
+    90% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 90%, rgba(255,255,255,1) 100%);
+    }
+    100% {
+      background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,.9) 100%, rgba(255,255,255,1) 100%);
+    }
+  }
 
 .block__error {
     display: flex;
