@@ -22,6 +22,7 @@ import {
   inputEditProfileImage,
   formDeleteCards,
   massUserInfo,
+  conteinerLoad,
 } from "./constant.js";
 import { openPopup, closePopup, } from "./modal.js";
 import { createCard, deliteCard, likeCard, } from "./card.js";
@@ -38,8 +39,10 @@ function setInfoUserForPage(massUserInfo) {
 // @todo: Вывести карточки на страницу
 
 function showCards() {
+  conteinerLoad.classList.add('load');
   Promise.all([apiCard(), apiUserInfo()])
   .then(([apiCard, apiUserInfo]) =>  {
+
       massUserInfo.name = apiUserInfo.name;
       massUserInfo.about = apiUserInfo.about;
       massUserInfo.avatar = apiUserInfo.avatar;
@@ -52,7 +55,8 @@ function showCards() {
           createCard(apiCard[i], massUserInfo, openPopup, likeCard, setImgPopup),
         )}
     })
-  .catch(config.err); 
+    .catch(config.err)
+    .finally(() => conteinerLoad.classList.remove('load'));
 }
 
 showCards();

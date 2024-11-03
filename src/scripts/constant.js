@@ -1,26 +1,56 @@
+
+// @todo: Основной контейнер
+
 export const pageContainer = document.querySelector(".page");
+
+// @todo: Карточка
+
 export const cardsContainer = pageContainer.querySelector(".places__list");
+
+// @todo: Попапы 
+
 export const popupImages = pageContainer.querySelector(".popup_type_image");
 export const newImage = popupImages.querySelector(".popup__image");
 export const titleImage = popupImages.querySelector(".popup__caption");
+export const popupNewProfileImage = pageContainer.querySelector('.popup_edit_profile-image');
+
+// @todo: Профиль
+
 export const profileName = pageContainer.querySelector(".profile__title");
 export const profileDescription = pageContainer.querySelector(
   ".profile__description",
 );
-export const popupNewProfileImage = pageContainer.querySelector('.popup_edit_profile-image');
 export const profileImage = pageContainer.querySelector('.profile__image');
+
+// @todo: Форма редактирование профиля
+
 export const formEditProfile = document.forms["edit-profile"];
-export const formNewPlace = document.forms["new-place"];
 export const inputName = formEditProfile.name;
 export const inputDescription = formEditProfile.description;
-export const newPlaceName = formNewPlace["place-name"];
-export const newLink = formNewPlace.link;
-export const errorConnect = pageContainer.querySelector('.error__connect');
-export const formDeleteCards = document.forms['delete-card'];
-export const popupDeleteCard = pageContainer.querySelector('.popup_delete-card');
+
+// @todo: Форма редактирование изброжения профиля
+
 export const formEditProfileImage = document.forms['edit-image-profile'];
 export const inputEditProfileImage = formEditProfileImage.link;
 
+// @todo: Форма новое место
+
+export const formNewPlace = document.forms["new-place"];
+export const newPlaceName = formNewPlace["place-name"];
+export const newLink = formNewPlace.link;
+
+// @todo: Форма удаления карточки
+
+export const formDeleteCards = document.forms['delete-card'];
+export const popupDeleteCard = pageContainer.querySelector('.popup_delete-card');
+
+// @todo: Ошибка соеденения с сервером
+
+export const errorConnect = pageContainer.querySelector('.error__connect');
+
+// @todo: Контейнер загрузки страницы
+
+export const conteinerLoad = pageContainer.querySelector('.places');
 
 // @todo: Темплейт карточки
 
