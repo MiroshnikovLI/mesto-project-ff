@@ -41,3 +41,19 @@ export const buttonClosePoppap =
 
 export const cardTemplate =
   pageContainer.querySelector("#card-template").content;
+
+// @todo: Массив для удаления поста на странице и на сервере
+
+export const deletePost = {
+  idPost: '',
+  target: '',
+};
+
+// @todo: Массив информации о пользователе 
+
+export const massUserInfo = {
+  name: '',
+  about: '',
+  avatar: '',
+  id: '',
+}

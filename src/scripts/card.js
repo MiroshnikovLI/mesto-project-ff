@@ -1,29 +1,21 @@
-import { cardTemplate, popupDeleteCard, formDeleteCards, } from "./constant.js";
-import { config, } from "./ap.js";
+import { cardTemplate, popupDeleteCard, deletePost, } from "./constant.js";
+import { apiDeleteCard, config, apiLikePost, apiDeleteLikePost, } from "./api.js";
 import { closePopup, } from "./modal.js";
 
 // @todo: Функция лайка карточки
 
 export function likeCard(like, cardsValues, likeInfo) {
-  if (!(like.target.classList.value.includes('card__like-button_is-active'))) {
-    fetch(`${config.baseUrl}/cards/likes/${cardsValues['_id']}`, {
-      method: 'PUT',
-      headers: config.headers,
-    })
-    .then(config.ressJson)
+  if (like.target.classList.value.includes('card__like-button_is-active')) {
+    apiDeleteLikePost(cardsValues['_id'])
     .then((ress) => {
-      like.target.classList.add("card__like-button_is-active");
+      like.target.classList.remove("card__like-button_is-active");
       likeInfo.textContent = ress.likes.length;
     })
     .catch(config.err)
   } else {
-    fetch(`${config.baseUrl}/cards/likes/${cardsValues['_id']}`, {
-      method: 'DELETE',
-      headers: config.headers,
-    })
-    .then(config.ressJson)
+    apiLikePost(cardsValues['_id'])
     .then((ress) => {
-      like.target.classList.remove("card__like-button_is-active");
+      like.target.classList.add("card__like-button_is-active");
       likeInfo.textContent = ress.likes.length;
     })
     .catch(config.err)
@@ -39,7 +31,7 @@ function getCardTemplate() {
 
 // @todo: Функция создания карточки
 
-export function createCard(cardsValues, openPopup, likeCard, setImgPopup) {
+export function createCard(cardsValues, massUserInfo, openPopup, likeCard, setImgPopup) {
 
   const cardsElement = getCardTemplate();
 
@@ -54,22 +46,16 @@ export function createCard(cardsValues, openPopup, likeCard, setImgPopup) {
 
   likeInfo.textContent = cardsValues.likes.length;
 
-  fetch(`${config.baseUrl}/users/me`, { headers: config.headers })
-  .then(config.ressJson)
-  .then(result =>  { 
-    if (!(cardsValues.owner['_id'] === result['_id'])) {
-      deleteButtonCard.classList.add('card__delete-button_hidden')
-    }  
-    cardsValues.likes.forEach(element => {
-      if (element['_id'] === result['_id']) {
-        likeButtonCard.classList.add('card__like-button_is-active')
-      }
-    })
+  if (!(cardsValues.owner['_id'] === massUserInfo.id)) {
+    deleteButtonCard.classList.add('card__delete-button_hidden')
+  }  
+  cardsValues.likes.forEach(element => {
+    if (element['_id'] === massUserInfo.id) {
+      likeButtonCard.classList.add('card__like-button_is-active')
+     }
   })
-  .catch(config.err);
- 
-  deleteButtonCard.addEventListener("click", (card) => { openPopup(popupDeleteCard); deletePost.idPost = cardsValues['_id'], deletePost.target = card.target});
 
+  deleteButtonCard.addEventListener("click", (card) => { openPopup(popupDeleteCard); deletePost.idPost = cardsValues['_id'], deletePost.target = card.target});
 
   likeButtonCard.addEventListener("click", (evt) => likeCard(evt, cardsValues, likeInfo));
 
@@ -80,25 +66,16 @@ export function createCard(cardsValues, openPopup, likeCard, setImgPopup) {
 
 // @todo: Функция удаления карточки
 
-const deletePost = {
-  idPost: '',
-  target: '',
-};
-
-export function deliteCard(evt) {
-  evt.preventDefault();
-  console.log(deletePost);
-       fetch(`${config.baseUrl}/cards/${deletePost.idPost}`, {
-      method: 'DELETE',
-      headers: config.headers,
-    })
-    .then(config.ressJson)
-    .then(ress => { 
+  export function deliteCard(evt) {
+    evt.preventDefault();
+    
+    apiDeleteCard(deletePost)
+    .then(() => { 
       closePopup(popupDeleteCard);
       deletePost.target.closest(".card").remove();
       deletePost.idPost = '';
       deletePost.target = '';
     })
     .catch(config.err);
-}
+  }
 

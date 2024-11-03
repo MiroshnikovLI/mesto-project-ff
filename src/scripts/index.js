@@ -21,12 +21,45 @@ import {
   formEditProfileImage,
   inputEditProfileImage,
   formDeleteCards,
+  massUserInfo,
 } from "./constant.js";
 import { openPopup, closePopup, } from "./modal.js";
 import { createCard, deliteCard, likeCard, } from "./card.js";
-import { config, } from './ap.js';
+import { config, apiCard, apiUserInfo, apiEditProfileImage, apiEditProfiInfo, apiNewPlace, } from './api.js';
+
+// @todo: Функции вывода информации пользователя на страницу 
+
+function setInfoUserForPage(massUserInfo) {
+  profileImage.setAttribute('style', `background-image: url('${massUserInfo.avatar}')`)
+  profileName.textContent = massUserInfo.name;
+  profileDescription.textContent = massUserInfo.about;   
+}
+
+// @todo: Вывести карточки на страницу
+
+function showCards() {
+  Promise.all([apiCard(), apiUserInfo()])
+  .then(([apiCard, apiUserInfo]) =>  {
+      massUserInfo.name = apiUserInfo.name;
+      massUserInfo.about = apiUserInfo.about;
+      massUserInfo.avatar = apiUserInfo.avatar;
+      massUserInfo.id = apiUserInfo['_id'];
+
+      setInfoUserForPage(massUserInfo);
+
+      for (let i = 0; i < apiCard.length; i++) {
+        cardsContainer.append(
+          createCard(apiCard[i], massUserInfo, openPopup, likeCard, setImgPopup),
+        )}
+    })
+  .catch(config.err); 
+}
+
+showCards();
 
 // @todo: Слушатели событий
+
+formEditProfileImage.addEventListener("submit", (evt) => { evt.preventDefault(); editProfileImage(evt, inputEditProfileImage.value) });
 
 formDeleteCards.addEventListener("submit", deliteCard);
 
@@ -44,7 +77,7 @@ formEditProfile.addEventListener("submit", (evt) =>
   editProfile(evt, inputName.value, inputDescription.value),
 );
 
-formNewPlace.addEventListener("submit", (evt) => submitAddCardForm(evt));
+formNewPlace.addEventListener("submit", (evt) => submitAddCardForm(evt, massUserInfo));
 
 buttonClosePoppap.forEach((btn) => {
   btn.addEventListener("click", (evt) => {
@@ -57,21 +90,13 @@ buttonClosePoppap.forEach((btn) => {
 function editProfile(evt, title, description) {
   evt.preventDefault();
 
-  fetch(`${config.baseUrl}/users/me`, {
-    method: 'PATCH',
-    headers: config.headers,
-    body: JSON.stringify({
-      name: title,
-      about: description,
-    })
-  })
-  .then(config.ressJson)
+  apiEditProfiInfo(title, description)
   .then((ress) => {
     profileName.textContent = ress.name;
     profileDescription.textContent = ress.about;
   })
-  .catch(config.err);
-  closePopup(evt.target.closest('.popup_is-opened'));
+  .catch(config.err)
+  .finally(closePopup(evt.target.closest('.popup_is-opened')));
 }
 
 // @todo: Функция изображения в попапе
@@ -86,7 +111,7 @@ function setImgPopup(images) {
 
 // @todo: Функция добавления новой карточки
 
-function submitAddCardForm(evt) {
+function submitAddCardForm(evt, massUserInfo) {
   evt.preventDefault();
 
   const newCard = {};
@@ -94,40 +119,23 @@ function submitAddCardForm(evt) {
   newCard.name = newPlaceName.value;
   newCard.link = newLink.value;
 
-  fetch(`${config.baseUrl}/cards`, {
-    method: 'POST',
-    headers: config.headers,
-    body: JSON.stringify({
-    "name": newCard.name,
-    "link": newCard.link,
-  })})
-  .then(config.ressJson)
+  apiNewPlace(newCard)
   .then((ress) => {
     cardsContainer.prepend(
-      createCard(ress, openPopup, likeCard, setImgPopup),
+      createCard(ress, massUserInfo, openPopup, likeCard, setImgPopup),
     );
   })
   .catch(config.err)
-  
-  evt.target.reset();
-
-  closePopup(evt.target.closest('.popup_is-opened'));
+  .finally(() => { 
+    evt.target.reset();
+    closePopup(evt.target.closest('.popup_is-opened'));
+  })
 }
 
 // @todo: Функция редактирвания изображения профиля 
 
-formEditProfileImage.addEventListener("submit", (evt) => { evt.preventDefault(); editProfileImage(evt, inputEditProfileImage.value) });
-
 function editProfileImage(evt, image) {
-  console.log(evt);
-  fetch('https://nomoreparties.co/v1/wff-cohort-25/users/me/avatar', { 
-    method: 'PATCH',
-    headers: config.headers,
-    body: JSON.stringify({
-      avatar: image,
-    })
-  })
-  .then(config.ressJson)
+  apiEditProfileImage(image)
   .then(ress => {
     profileImage.setAttribute('style', `background-image: url('${image}')`);
     evt.target.reset();
@@ -135,20 +143,3 @@ function editProfileImage(evt, image) {
   })
   .catch(config.err);
 }
-
-// @todo: Вывести карточки на страницу
-
-function showCards() {
-  fetch(`${config.baseUrl}/cards`, { headers: config.headers })
-     .then(config.ressJson)
-    .then((result) =>  {
-      for (let i = 0; i < result.length; i++) {
-        cardsContainer.append(
-          createCard(result[i], openPopup, likeCard, setImgPopup),
-        )}
-      console.log(result)
-      })
-    .catch(config.err); 
-}
-
-showCards();
