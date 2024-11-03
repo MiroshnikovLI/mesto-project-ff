@@ -22,7 +22,6 @@ export const config = {
   
 
 export const apiDeleteCard = (deletePost) => {
-  console.log(deletePost);
   return fetch(`${config.baseUrl}/cards/${deletePost.idPost}`, {
     method: 'DELETE',
     headers: config.headers,

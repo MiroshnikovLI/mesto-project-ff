@@ -63,7 +63,7 @@ showCards();
 
 // @todo: Слушатели событий
 
-formEditProfileImage.addEventListener("submit", (evt) => { evt.preventDefault(); editProfileImage(evt, inputEditProfileImage.value) });
+formEditProfileImage.addEventListener("submit", (evt) => editProfileImage(evt, inputEditProfileImage.value));
 
 formDeleteCards.addEventListener("submit", deliteCard);
 
@@ -93,6 +93,7 @@ buttonClosePoppap.forEach((btn) => {
 
 function editProfile(evt, title, description) {
   evt.preventDefault();
+  infoSeveImage(evt, true);
 
   apiEditProfiInfo(title, description)
   .then((ress) => {
@@ -100,7 +101,24 @@ function editProfile(evt, title, description) {
     profileDescription.textContent = ress.about;
   })
   .catch(config.err)
-  .finally(closePopup(evt.target.closest('.popup_is-opened')));
+  .finally(() => {
+    infoSeveImage(evt);
+
+    closePopup(evt.target.closest('.popup_is-opened'))
+  });
+}
+
+// @todo: Функции иведомления о сохранение изображения 
+
+function infoSeveImage (evt, trueFalse) {
+  const button = evt.target.querySelector('.button');
+  if(trueFalse) {
+    button.textContent = 'Сохранение...';
+    button.classList.add('popup__button-seve');
+  } else {
+    button.textContent = 'Сохранить';
+    button.classList.remove('popup__button-seve');
+  }
 }
 
 // @todo: Функция изображения в попапе
@@ -118,6 +136,8 @@ function setImgPopup(images) {
 function submitAddCardForm(evt, massUserInfo) {
   evt.preventDefault();
 
+  infoSeveImage(evt, true);
+
   const newCard = {};
 
   newCard.name = newPlaceName.value;
@@ -132,6 +152,7 @@ function submitAddCardForm(evt, massUserInfo) {
   .catch(config.err)
   .finally(() => { 
     evt.target.reset();
+    infoSeveImage(evt);
     closePopup(evt.target.closest('.popup_is-opened'));
   })
 }
@@ -139,11 +160,15 @@ function submitAddCardForm(evt, massUserInfo) {
 // @todo: Функция редактирвания изображения профиля 
 
 function editProfileImage(evt, image) {
+  evt.preventDefault();
+  infoSeveImage(evt, true);
+
   apiEditProfileImage(image)
   .then(ress => {
     profileImage.setAttribute('style', `background-image: url('${image}')`);
     evt.target.reset();
     closePopup(evt.target.closest('.popup_is-opened'));
   })
-  .catch(config.err);
+  .catch(config.err)
+  .finally(() => infoSeveImage(evt));
 }
