@@ -1,29 +1,31 @@
 // @todo: Основной контейнер
 
-export const pageContainer = document.querySelector(".page");
+export const pageContainer = document.querySelector('.page');
 
 // @todo: Карточка
 
-export const cardsContainer = pageContainer.querySelector(".places__list");
+export const cardsContainer = pageContainer.querySelector('.places__list');
 
-// @todo: Попапы 
+// @todo: Попапы
 
-export const popupImages = pageContainer.querySelector(".popup_type_image");
-export const newImage = popupImages.querySelector(".popup__image");
-export const titleImage = popupImages.querySelector(".popup__caption");
-export const popupNewProfileImage = pageContainer.querySelector('.popup_edit_profile-image');
+export const popupImages = pageContainer.querySelector('.popup_type_image');
+export const newImage = popupImages.querySelector('.popup__image');
+export const titleImage = popupImages.querySelector('.popup__caption');
+export const popupNewProfileImage = pageContainer.querySelector(
+  '.popup_edit_profile-image'
+);
 
 // @todo: Профиль
 
-export const profileName = pageContainer.querySelector(".profile__title");
+export const profileName = pageContainer.querySelector('.profile__title');
 export const profileDescription = pageContainer.querySelector(
-  ".profile__description",
+  '.profile__description'
 );
 export const profileImage = pageContainer.querySelector('.profile__image');
 
 // @todo: Форма редактирование профиля
 
-export const formEditProfile = document.forms["edit-profile"];
+export const formEditProfile = document.forms['edit-profile'];
 export const inputName = formEditProfile.name;
 export const inputDescription = formEditProfile.description;
 
@@ -34,14 +36,15 @@ export const inputEditProfileImage = formEditProfileImage.link;
 
 // @todo: Форма новое место
 
-export const formNewPlace = document.forms["new-place"];
-export const newPlaceName = formNewPlace["place-name"];
+export const formNewPlace = document.forms['new-place'];
+export const newPlaceName = formNewPlace['place-name'];
 export const newLink = formNewPlace.link;
 
 // @todo: Форма удаления карточки
 
 export const formDeleteCards = document.forms['delete-card'];
-export const popupDeleteCard = pageContainer.querySelector('.popup_delete-card');
+export const popupDeleteCard =
+  pageContainer.querySelector('.popup_delete-card');
 
 // @todo: Ошибка соеденения с сервером
 
@@ -54,22 +57,22 @@ export const conteinerLoad = pageContainer.querySelector('.places');
 // @todo: Темплейт карточки
 
 export const buttonNewCard = pageContainer.querySelector(
-  ".profile__add-button",
+  '.profile__add-button'
 );
 export const buttonOpenEditProfileFrom = pageContainer.querySelector(
-  ".profile__edit-button",
+  '.profile__edit-button'
 );
 export const popuppNewCard = pageContainer.querySelector(
-  ".popup_type_new-card",
+  '.popup_type_new-card'
 );
-export const popupEditProfil = pageContainer.querySelector(".popup_type_edit");
+export const popupEditProfil = pageContainer.querySelector('.popup_type_edit');
 export const buttonClosePoppap =
-  pageContainer.querySelectorAll(".popup__close");
+  pageContainer.querySelectorAll('.popup__close');
 
 // @todo: DOM узлы
 
 export const cardTemplate =
-  pageContainer.querySelector("#card-template").content;
+  pageContainer.querySelector('#card-template').content;
 
 // @todo: Массив для удаления поста на странице и на сервере
 
@@ -78,11 +81,11 @@ export const deletePost = {
   target: '',
 };
 
-// @todo: Массив информации о пользователе 
+// @todo: Массив информации о пользователе
 
 export const massUserInfo = {
   name: '',
   about: '',
   avatar: '',
   id: '',
-}
+};

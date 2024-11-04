@@ -15,20 +15,22 @@
   position: absolute;
   inset: 0;
   cursor: pointer;
-  background-image: url('../../../images/Vector.svg');
-  background-color: rgba(0, 0, 0, .8);
+  background-image: url(../../../images/Vector.svg);
+  background-color: rgb(0 0 0 / 0.8);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 26px;
 }
 
 @media screen and (max-width: 740px) {
+
   .profile__image {
     margin: 0 10px 0 0;
   }
 }
 
 @media screen and (max-width: 480px) {
+
   .profile__image {
     margin-right: 0;
   }

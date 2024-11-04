@@ -85,30 +85,30 @@
           <h3 class="popup__title">Новое место</h3>
           <form class="popup__form" name="new-place" novalidate>
             <label class="popup__label">
-            <input
-              id="input__place-name"
-              type="text"
-              name="place-name"
-              class="popup__input popup__input_type_card-name"
-              placeholder="Название"
-              minlenght="2"
-              maxlenght="30"
-              pattern="^[a-zA-Zа-яёА-ЯЁ\s\-]+$"
-              required
-            />
-            <span class="input__place-name-error popup__error"></span>
-          </label>
-          <label class="popup__label">
-            <input
-              id="input__url"
-              type="url"
-              name="link"
-              class="popup__input popup__input_type_url"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span class="input__url-error popup__error"></span>
-          </label>
+              <input
+                id="input__place-name"
+                type="text"
+                name="place-name"
+                class="popup__input popup__input_type_card-name"
+                placeholder="Название"
+                minlenght="2"
+                maxlenght="30"
+                pattern="^[a-zA-Zа-яёА-ЯЁ\s\-]+$"
+                required
+              />
+              <span class="input__place-name-error popup__error"></span>
+            </label>
+            <label class="popup__label">
+              <input
+                id="input__url"
+                type="url"
+                name="link"
+                class="popup__input popup__input_type_url"
+                placeholder="Ссылка на картинку"
+                required
+              />
+              <span class="input__url-error popup__error"></span>
+            </label>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -128,7 +128,7 @@
           <butoon type="button" class="popup__close"></butoon>
           <form class="popup__form" name="edit-image-profile" novalidate>
             <label class="popup__label">
-            <input
+              <input
                 id="input__profile-url"
                 type="url"
                 name="link"
@@ -136,7 +136,7 @@
                 placeholder="Ссылка на картинку"
                 required
               />
-            <span class="input__profile-url-error popup__error"></span>
+              <span class="input__profile-url-error popup__error"></span>
             </label>
             <button type="submit" class="button popup__button">
               Сохранить
@@ -155,9 +155,7 @@
           <h3 class="popup__title">Вы уверены?</h3>
           <butoon type="button" class="popup__close"></butoon>
           <form name="delete-card">
-            <button type="submit" class="button popup__button">
-              Да
-            </button>
+            <button type="submit" class="button popup__button">Да</button>
           </form>
         </div>
       </div>

@@ -1,16 +1,16 @@
 .popup__button-seve {
-    pointer-events: none;
+  pointer-events: none;
 }
-  
+
 .popup__button-seve::after {
-    content: 'Сохранение...';
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 30px;
-    mix-blend-mode: multiply;
-    color: transparent;
-    background-clip: text;
-    animation: seve 1s linear infinite alternate;
+  content: 'Сохранение...';
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 30px;
+  mix-blend-mode: multiply;
+  color: transparent;
+  background-clip: text;
+  animation: seve 1s linear infinite alternate;
 }

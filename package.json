@@ -1,7 +1,7 @@
 {
   "name": "website-design",
   "version": "1.0.0",
-  "description": "Данный проект тренировачный. В нем используется только HTML и CSS (Grid).",
+  "description": "<a href=\"https://github.com/MiroshnikovLI/mesto-project-ff.git\">Ссылка для Яндекс Практикума</a>",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
@@ -33,6 +33,8 @@
   },
   "dependencies": {
     "core-js": "^3.38.1",
-    "prettier": "^3.3.3"
+    "jshint": "^2.13.6",
+    "prettier": "^3.3.3",
+    "stylelint": "^16.10.0"
   }
 }
