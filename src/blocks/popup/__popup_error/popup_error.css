@@ -1,0 +1,11 @@
+.popup__error {
+    color: red;
+    font-size: 12px;
+    min-height: 27.6px;
+    opacity: 0;
+}
+
+.popup__error_visible {
+    opacity: 1;
+    animation: apacity 3s linear;
+}

@@ -10,6 +10,10 @@
 @import url("./_profile_image/profile_image.css");
 @import url("./_delete-card/delete-card.css");
 @import url("./_button-seve/button-seve.css");
+@import url("./_button_disabled/button_disabled.css");
+@import url("./__input/_type_error/type_error.css");
+@import url("./__popup__label/popup_label.css");
+@import url("./__popup_error/popup_error.css");
 
 .popup {
   font-family: "Inter", Arial, sans-serif;
