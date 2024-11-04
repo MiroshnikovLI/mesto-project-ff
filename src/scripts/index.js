@@ -23,10 +23,12 @@ import {
   formDeleteCards,
   massUserInfo,
   conteinerLoad,
+  pageContainer,
 } from "./constant.js";
 import { openPopup, closePopup, } from "./modal.js";
 import { createCard, deliteCard, likeCard, } from "./card.js";
 import { config, apiCard, apiUserInfo, apiEditProfileImage, apiEditProfiInfo, apiNewPlace, } from './api.js';
+import { showInputError, hideInputError, toggleButtonState} from './validation.js';
 
 // @todo: Функции вывода информации пользователя на страницу 
 
@@ -71,14 +73,14 @@ profileImage.addEventListener("click", () => openPopup(popupNewProfileImage));
 
 buttonNewCard.addEventListener("click", () => openPopup(popuppNewCard));
 
-buttonOpenEditProfileFrom.addEventListener("click", () => {
+buttonOpenEditProfileFrom.addEventListener("click", (evt) => {
   openPopup(popupEditProfil);
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
 });
 
 formEditProfile.addEventListener("submit", (evt) =>
-  editProfile(evt, inputName.value, inputDescription.value),
+  editProfile(evt, inputName.value, inputDescription.value)
 );
 
 formNewPlace.addEventListener("submit", (evt) => submitAddCardForm(evt, massUserInfo));
@@ -89,11 +91,52 @@ buttonClosePoppap.forEach((btn) => {
   });
 });
 
+// @todo: Функция установки слушателя на инпуты формы
+
+function setEventListeners (formSelector) {
+  const inputList = Array.from(formSelector.querySelectorAll('.popup__input'));
+  const submitButtonSelector = formSelector.querySelector('.popup__button');
+
+  inputList.forEach((inputSelector) => {
+      inputSelector.addEventListener('input', () => {
+          checkInputValidity(formSelector, inputSelector);
+          toggleButtonState(inputList, submitButtonSelector);
+      });
+
+      toggleButtonState(inputSelector, submitButtonSelector);
+  });
+
+  
+};
+
+// @todo: Функция отмена перезагрузки формы и вызова установки слушателя на инпуты формы
+
+function enableValidation () {
+  const formList = Array.from(document.querySelectorAll('.popup__form'));
+  console.log(formList);
+  formList.forEach((formSelector) => {
+      formSelector.addEventListener('submit', (evt) => {
+          evt.preventDefault();
+          setEventListeners(formSelector);
+      });
+  });
+};
+
+// @todo: Функция проверка правильности введенных данных
+
+function checkInputValidity (formSelector, inputSelector) {
+  if (!inputSelector.validity.valid) {
+      showInputError(formSelector, inputSelector, inputSelector.validationMessage);
+  } else {
+      hideInputError(formSelector, inputSelector)
+  }
+};
+
 // @todo: Функция редактирования профиля
 
 function editProfile(evt, title, description) {
   evt.preventDefault();
-  infoSeveImage(evt, true);
+  infoButtonSeve(evt, true);
 
   apiEditProfiInfo(title, description)
   .then((ress) => {
@@ -102,15 +145,15 @@ function editProfile(evt, title, description) {
   })
   .catch(config.err)
   .finally(() => {
-    infoSeveImage(evt);
+    infoButtonSeve(evt);
 
     closePopup(evt.target.closest('.popup_is-opened'))
   });
 }
 
-// @todo: Функции иведомления о сохранение изображения 
+// @todo: Функции уведомления о сохранение 
 
-function infoSeveImage (evt, trueFalse) {
+function infoButtonSeve (evt, trueFalse) {
   const button = evt.target.querySelector('.button');
   if(trueFalse) {
     button.textContent = 'Сохранение...';
@@ -136,7 +179,7 @@ function setImgPopup(images) {
 function submitAddCardForm(evt, massUserInfo) {
   evt.preventDefault();
 
-  infoSeveImage(evt, true);
+  infoButtonSeve(evt, true);
 
   const newCard = {};
 
@@ -152,7 +195,7 @@ function submitAddCardForm(evt, massUserInfo) {
   .catch(config.err)
   .finally(() => { 
     evt.target.reset();
-    infoSeveImage(evt);
+    infoButtonSeve(evt);
     closePopup(evt.target.closest('.popup_is-opened'));
   })
 }
@@ -161,7 +204,7 @@ function submitAddCardForm(evt, massUserInfo) {
 
 function editProfileImage(evt, image) {
   evt.preventDefault();
-  infoSeveImage(evt, true);
+  infoButtonSeve(evt, true);
 
   apiEditProfileImage(image)
   .then(ress => {
@@ -170,5 +213,7 @@ function editProfileImage(evt, image) {
     closePopup(evt.target.closest('.popup_is-opened'));
   })
   .catch(config.err)
-  .finally(() => infoSeveImage(evt));
+  .finally(() => infoButtonSeve(evt));
 }
+
+enableValidation();

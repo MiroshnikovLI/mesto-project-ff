@@ -1,4 +1,3 @@
-
 // @todo: Основной контейнер
 
 export const pageContainer = document.querySelector(".page");

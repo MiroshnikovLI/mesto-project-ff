@@ -17,6 +17,10 @@
   margin-top: 48px;
 }
 
+.popup__label + .popup__button {
+  margin-top: 6px;
+}
+
 .popup__button:hover {
   background: rgba(0, 0, 0, 0.8);
   cursor: pointer;
