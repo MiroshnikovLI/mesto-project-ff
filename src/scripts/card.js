@@ -1,17 +1,17 @@
-import { cardTemplate, popupDeleteCard, deletePost } from './constant.js';
+import { cardTemplate, deletePost, } from './constant.js';
 import {
-  apiDeleteCard,
   config,
   apiLikePost,
   apiDeleteLikePost,
+  apiDeleteCard,
 } from './api.js';
-import { closePopup } from './modal.js';
 
 // @todo: Функция лайка карточки
 
 export function likeCard(like, cardsValues, likeInfo) {
   if (like.target.classList.value.includes('card__like-button_is-active')) {
     apiDeleteLikePost(cardsValues['_id'])
+      .then(config.ressJson)
       .then((ress) => {
         like.target.classList.remove('card__like-button_is-active');
         likeInfo.textContent = ress.likes.length;
@@ -19,6 +19,7 @@ export function likeCard(like, cardsValues, likeInfo) {
       .catch(config.err);
   } else {
     apiLikePost(cardsValues['_id'])
+      .then(config.ressJson)
       .then((ress) => {
         like.target.classList.add('card__like-button_is-active');
         likeInfo.textContent = ress.likes.length;
@@ -38,10 +39,10 @@ function getCardTemplate() {
 
 export function createCard(
   cardsValues,
-  massUserInfo,
-  openPopup,
+  userId,
+  openPopupDeleteCard,
   likeCard,
-  setImgPopup
+  showImgPopup
 ) {
   const cardsElement = getCardTemplate();
 
@@ -56,40 +57,37 @@ export function createCard(
 
   likeInfo.textContent = cardsValues.likes.length;
 
-  if (!(cardsValues.owner['_id'] === massUserInfo.id)) {
+  if (!(cardsValues.owner['_id'] === userId)) {
     deleteButtonCard.classList.add('card__delete-button_hidden');
   }
   cardsValues.likes.forEach((element) => {
-    if (element['_id'] === massUserInfo.id) {
+    if (element['_id'] === userId) {
       likeButtonCard.classList.add('card__like-button_is-active');
     }
   });
 
-  deleteButtonCard.addEventListener('click', (card) => {
-    openPopup(popupDeleteCard);
-    (deletePost.idPost = cardsValues['_id']), (deletePost.target = card.target);
-  });
+  deleteButtonCard.addEventListener('click', (card) => openPopupDeleteCard(card, cardsValues['_id']));
 
   likeButtonCard.addEventListener('click', (evt) =>
     likeCard(evt, cardsValues, likeInfo)
   );
 
-  cardImage.addEventListener('click', setImgPopup);
+  cardImage.addEventListener('click', showImgPopup);
 
   return cardsElement;
 }
 
 // @todo: Функция удаления карточки
 
-export function deliteCard(evt) {
+export function deleteCard(evt, deletePost, closePopup, popupDeleteCard) {
   evt.preventDefault();
-
   apiDeleteCard(deletePost)
+    .then(config.ressJson)
     .then(() => {
-      closePopup(popupDeleteCard);
       deletePost.target.closest('.card').remove();
       deletePost.idPost = '';
       deletePost.target = '';
+      closePopup(popupDeleteCard);
     })
     .catch(config.err);
 }

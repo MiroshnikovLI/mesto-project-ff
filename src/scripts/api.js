@@ -1,7 +1,7 @@
 // Токен: 38a628a1-9dfc-4f10-bcd6-8a3b9999ace6
 // Идентификатор группы: wff-cohort-25
 
-import { errorConnect } from './constant.js';
+import { errorConnect, errorTitle, errorText } from './constant.js';
 
 export const config = {
   baseUrl: 'https://nomoreparties.co/v1/wff-cohort-25',
@@ -17,6 +17,25 @@ export const config = {
     }
   },
   err: (err) => {
+    if (err === 408) {
+      errorTitle.textContent = 'Истикло время ожидания.';
+      errorText.textContent = 'Попробуйте снова.';
+    } else if (err === 429) {
+      errorTitle.textContent = 'Слишком много запросов';
+      errorText.textContent = 'Подождите немного и попробуйте снова';
+    } else if (err === 404) {
+      errorTitle.textContent = 'Информация не найдена';
+      errorText.textContent = 'Возможно были изменения ранее';
+    } else if (err === 500) {
+      errorTitle.textContent = 'Внутренняя ошибка сервера';
+      errorText.textContent = 'Попробуйте перезагрузить страницу.';
+    } else if (err === 503) {
+      errorTitle.textContent = 'Сервис недоступен';
+      errorText.textContent = 'Попробуйте перезагрузить страницу.';
+    } else {
+      errorTitle.textContent = 'Неизвестная ошибка';
+      errorText.textContent = 'Попробуйте перезагрузить страницу.';
+    }
     errorConnect.setAttribute('style', 'display: block;');
     setTimeout(
       () => errorConnect.setAttribute('style', 'display: none;'),
@@ -29,7 +48,7 @@ export const apiDeleteCard = (deletePost) => {
   return fetch(`${config.baseUrl}/cards/${deletePost.idPost}`, {
     method: 'DELETE',
     headers: config.headers,
-  }).then(config.ressJson);
+  })
 };
 
 export const apiUserInfo = () => {
@@ -42,30 +61,28 @@ export const apiLikePost = (post) => {
   return fetch(`${config.baseUrl}/cards/likes/${post}`, {
     method: 'PUT',
     headers: config.headers,
-  }).then(config.ressJson);
+  })
 };
 
 export const apiDeleteLikePost = (post) => {
   return fetch(`${config.baseUrl}/cards/likes/${post}`, {
     method: 'DELETE',
     headers: config.headers,
-  }).then(config.ressJson);
+  })
 };
 
 export const apiCard = () => {
-  return fetch(`${config.baseUrl}/cards`, { headers: config.headers }).then(
-    config.ressJson
-  );
+  return fetch(`${config.baseUrl}/cards`, { headers: config.headers }).then(config.ressJson);
 };
 
 export const apiEditProfileImage = (image) => {
-  return fetch('https://nomoreparties.co/v1/wff-cohort-25/users/me/avatar', {
+  return fetch(`${config.baseUrl}users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
       avatar: image,
     }),
-  }).then(config.ressJson);
+  })
 };
 
 export const apiEditProfiInfo = (title, description) => {
@@ -76,7 +93,7 @@ export const apiEditProfiInfo = (title, description) => {
       name: title,
       about: description,
     }),
-  }).then(config.ressJson);
+  })
 };
 
 export const apiNewPlace = (newCard) => {
@@ -87,5 +104,5 @@ export const apiNewPlace = (newCard) => {
       name: newCard.name,
       link: newCard.link,
     }),
-  }).then(config.ressJson);
+  })
 };

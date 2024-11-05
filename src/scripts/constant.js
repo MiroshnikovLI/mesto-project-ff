@@ -49,6 +49,9 @@ export const popupDeleteCard =
 // @todo: Ошибка соеденения с сервером
 
 export const errorConnect = pageContainer.querySelector('.error__connect');
+export const errorTitle = errorConnect.querySelector('.error__title');
+export const errorText = errorConnect.querySelector('.error__text');
+
 
 // @todo: Контейнер загрузки страницы
 

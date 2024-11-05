@@ -28,9 +28,3 @@ export function closePopupClick(evt) {
     closePopup(openedPopup);
   }
 }
-
-// @todo: Функция очистка ошибок в форме
-
-// function clearFormError {
-//   evt.target.reser
-// }

@@ -1,31 +1,33 @@
 import {
   formEditProfile,
-  cardsContainer,
+  formEditProfileImage,
+  formDeleteCards,
+  formNewPlace,
+  inputEditProfileImage,
   inputName,
   inputDescription,
+  popuppNewCard,
+  popupImages,
+  popupEditProfil,
+  popupNewProfileImage,
+  popupDeleteCard,
+  cardsContainer,
   profileName,
   profileDescription,
-  formNewPlace,
   newPlaceName,
   newLink,
-  popupImages,
   newImage,
   titleImage,
   buttonNewCard,
   buttonOpenEditProfileFrom,
-  popuppNewCard,
-  popupEditProfil,
   buttonClosePoppap,
-  popupNewProfileImage,
   profileImage,
-  formEditProfileImage,
-  inputEditProfileImage,
-  formDeleteCards,
   massUserInfo,
   conteinerLoad,
+  deletePost,
 } from './constant.js';
-import { openPopup, closePopup } from './modal.js';
-import { createCard, deliteCard, likeCard } from './card.js';
+import { openPopup, closePopup, } from './modal.js';
+import { createCard, likeCard, deleteCard, } from './card.js';
 import {
   config,
   apiCard,
@@ -34,11 +36,7 @@ import {
   apiEditProfiInfo,
   apiNewPlace,
 } from './api.js';
-import {
-  showInputError,
-  hideInputError,
-  toggleButtonState,
-} from './validation.js';
+import { enableValidation, setEventListeners, } from './validation.js';
 
 // @todo: Функции вывода информации пользователя на страницу
 
@@ -64,17 +62,19 @@ function showCards() {
 
       setInfoUserForPage(massUserInfo);
 
-      for (let i = 0; i < apiCard.length; i++) {
+      apiCard.forEach((cards) => {
         cardsContainer.append(
-          createCard(apiCard[i], massUserInfo, openPopup, likeCard, setImgPopup)
-        );
-      }
+          createCard(cards, massUserInfo.id, openPopupDeleteCard, likeCard, showImgPopup)
+        )
+      });
     })
-    .catch(config.err)
-    .finally(() => conteinerLoad.classList.remove('load'));
+    .then(() => conteinerLoad.classList.remove('load'))
+    .catch((err) => config.err(err));
 }
 
 showCards();
+
+enableValidation();
 
 // @todo: Слушатели событий
 
@@ -82,7 +82,7 @@ formEditProfileImage.addEventListener('submit', (evt) =>
   editProfileImage(evt, inputEditProfileImage.value)
 );
 
-formDeleteCards.addEventListener('submit', deliteCard);
+formDeleteCards.addEventListener('submit', (evt) => deleteCard(evt, deletePost, closePopup, popupDeleteCard));
 
 profileImage.addEventListener('click', () => openPopup(popupNewProfileImage));
 
@@ -99,58 +99,15 @@ formEditProfile.addEventListener('submit', (evt) =>
 );
 
 formNewPlace.addEventListener('submit', (evt) =>
-  submitAddCardForm(evt, massUserInfo)
+  submitAddCardForm(evt, massUserInfo.id)
 );
 
 buttonClosePoppap.forEach((btn) => {
+  const popup = btn.closest('.popup');
   btn.addEventListener('click', (evt) => {
-    closePopup(evt.target.closest('.popup_is-opened'));
+    closePopup(popup);
   });
 });
-
-// @todo: Функция установки слушателя на инпуты формы
-
-function setEventListeners(formSelector) {
-  const inputList = Array.from(formSelector.querySelectorAll('.popup__input'));
-  const submitButtonSelector = formSelector.querySelector('.popup__button');
-
-  inputList.forEach((inputSelector) => {
-    inputSelector.addEventListener('input', () => {
-      checkInputValidity(formSelector, inputSelector);
-      toggleButtonState(inputList, submitButtonSelector);
-    });
-
-    toggleButtonState(inputList, submitButtonSelector);
-  });
-}
-
-// @todo: Функция отмена перезагрузки формы и вызова установки слушателя на инпуты формы
-
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
-  formList.forEach((formSelector) => {
-    setEventListeners(formSelector);
-    formSelector.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    });
-  });
-}
-
-enableValidation();
-
-// @todo: Функция проверка правильности введенных данных
-
-function checkInputValidity(formSelector, inputSelector) {
-  if (!inputSelector.validity.valid) {
-    showInputError(
-      formSelector,
-      inputSelector,
-      inputSelector.validationMessage
-    );
-  } else {
-    hideInputError(formSelector, inputSelector);
-  }
-}
 
 // @todo: Функция редактирования профиля
 
@@ -158,16 +115,16 @@ function editProfile(evt, title, description) {
   infoButtonSeve(evt, true);
 
   apiEditProfiInfo(title, description)
+    .then(config.ressJson)
     .then((ress) => {
       profileName.textContent = ress.name;
       profileDescription.textContent = ress.about;
     })
-    .catch(config.err)
+    .then(() => closePopup(popupEditProfil))
+    .catch((err) => { config.err(err); infoButtonSeve(evt); })
     .finally(() => {
       infoButtonSeve(evt);
-
-      closePopup(evt.target.closest('.popup_is-opened'));
-    });
+    }); 
 }
 
 // @todo: Функции уведомления о сохранение
@@ -180,14 +137,13 @@ function infoButtonSeve(evt, trueFalse) {
   } else {
     button.textContent = 'Сохранить';
     button.classList.remove('popup__button-seve');
-    evt.target.reset();
     setEventListeners(evt.target);
   }
 }
 
 // @todo: Функция изображения в попапе
 
-function setImgPopup(images) {
+function showImgPopup(images) {
   openPopup(popupImages);
 
   newImage.src = images.currentTarget.src;
@@ -197,7 +153,7 @@ function setImgPopup(images) {
 
 // @todo: Функция добавления новой карточки
 
-function submitAddCardForm(evt, massUserInfo) {
+function submitAddCardForm(evt, userId) {
   infoButtonSeve(evt, true);
 
   const newCard = {};
@@ -206,16 +162,22 @@ function submitAddCardForm(evt, massUserInfo) {
   newCard.link = newLink.value;
 
   apiNewPlace(newCard)
+    .then(config.ressJson)
     .then((ress) => {
       cardsContainer.prepend(
-        createCard(ress, massUserInfo, openPopup, likeCard, setImgPopup)
+        createCard(ress, userId, openPopupDeleteCard, likeCard, showImgPopup )
       );
     })
-    .catch(config.err)
-    .finally(() => {
-      evt.target.reset();
+    .then(() => {
       infoButtonSeve(evt);
-      closePopup(evt.target.closest('.popup_is-opened'));
+      closePopup(popuppNewCard);
+      evt.target.reset();
+    })
+    .catch((err) => { 
+      config.err(err);
+    })
+    .finally(() => {
+      infoButtonSeve(evt);
     });
 }
 
@@ -228,8 +190,17 @@ function editProfileImage(evt, image) {
     .then((ress) => {
       profileImage.setAttribute('style', `background-image: url('${image}')`);
       evt.target.reset();
-      closePopup(evt.target.closest('.popup_is-opened'));
+      closePopup(popupNewProfileImage);
     })
     .catch(config.err)
     .finally(() => infoButtonSeve(evt));
+}
+
+// @todo: Функция открытия попапа удаления карточки
+
+export function openPopupDeleteCard (card, cardsValues) {
+  openPopup(popupDeleteCard);
+
+  deletePost.idPost = cardsValues;
+  deletePost.target = card.target;
 }
