@@ -1,4 +1,4 @@
-import { cardTemplate, deletePost, } from './constant.js';
+import { cardTemplate, } from './constant.js';
 import {
   config,
   apiLikePost,
@@ -16,7 +16,7 @@ export function likeCard(like, cardsValues, likeInfo) {
         like.target.classList.remove('card__like-button_is-active');
         likeInfo.textContent = ress.likes.length;
       })
-      .catch(config.err);
+      .catch((err) => config.err(err));
   } else {
     apiLikePost(cardsValues['_id'])
       .then(config.ressJson)
@@ -24,7 +24,7 @@ export function likeCard(like, cardsValues, likeInfo) {
         like.target.classList.add('card__like-button_is-active');
         likeInfo.textContent = ress.likes.length;
       })
-      .catch(config.err);
+      .catch((err) => config.err(err));
   }
 }
 
@@ -42,7 +42,7 @@ export function createCard(
   userId,
   openPopupDeleteCard,
   likeCard,
-  showImgPopup
+  clickForImgCard
 ) {
   const cardsElement = getCardTemplate();
 
@@ -72,7 +72,7 @@ export function createCard(
     likeCard(evt, cardsValues, likeInfo)
   );
 
-  cardImage.addEventListener('click', showImgPopup);
+  cardImage.addEventListener('click', clickForImgCard);
 
   return cardsElement;
 }
@@ -83,11 +83,11 @@ export function deleteCard(evt, deletePost, closePopup, popupDeleteCard) {
   evt.preventDefault();
   apiDeleteCard(deletePost)
     .then(config.ressJson)
+    .then(() => deletePost.target.closest('.card').remove())
     .then(() => {
-      deletePost.target.closest('.card').remove();
       deletePost.idPost = '';
       deletePost.target = '';
       closePopup(popupDeleteCard);
     })
-    .catch(config.err);
+    .catch((err) => config.err(err));
 }

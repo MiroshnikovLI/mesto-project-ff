@@ -1,26 +1,27 @@
 // @todo: Функция показать ошибку валидации
 
-export function showInputError(formSelector, inputSelector, errorMessage) {
+export function showInputError(formSelector, inputSelector, errorMessage, enableValidation) {
   const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
 
   if (inputSelector.validity.patternMismatch) {
     errorElement.textContent = inputSelector.dataset.errorMessage;
-    errorElement.classList.add('popup__error_visible');
-    inputSelector.classList.add('popup__input_type_error');
+    errorElement.classList.add(`${enableValidation.errorClass}`);
+    inputSelector.classList.add(`${enableValidation.inputErrorClass}`);
   } else {
-    inputSelector.classList.add('popup__input_type_error');
+    inputSelector.classList.add(`${enableValidation.inputErrorClass}`);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add('popup__error_visible');
+    errorElement.classList.add(`${enableValidation.errorClass}`);
   }
 }
 
 // @todo: Функция скрыть ошибку валидации
 
-export function hideInputError(formSelector, inputSelector) {
+export function hideInputError(formSelector, inputSelector, enableValidation) {
   const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
-  inputSelector.classList.remove('popup__input_type_error');
-  errorElement.classList.remove('popup__error_visible');
+    
+  errorElement.classList.remove(`${enableValidation.errorClass}`);
   errorElement.textContent = '';
+  inputSelector.classList.remove(`${enableValidation.inputErrorClass}`);
 }
 
 // @todo: Функция проверка валидности формы
@@ -33,54 +34,44 @@ function hasInvalidInput(inputList) {
 
 // @todo: Функция состояние кнопки формы
 
-export function toggleButtonState(inputList, submitButtonSelector) {
+export function toggleButtonState(inputList, submitButtonSelector, enableValidation) {
   if (hasInvalidInput(inputList)) {
     submitButtonSelector.disabled = true;
-    submitButtonSelector.classList.add('popup__button_disabled');
+    submitButtonSelector.classList.add(`${enableValidation.inactiveButtonClass}`);
   } else {
     submitButtonSelector.disabled = false;
-    submitButtonSelector.classList.remove('popup__button_disabled');
+    submitButtonSelector.classList.remove(`${enableValidation.inactiveButtonClass}`);
   }
 }
 
-// @todo: Функция установки слушателя на инпуты формы
+// @todo: Функция установки слушателя на формы
 
-export function setEventListeners(formSelector) {
-  const inputList = Array.from(formSelector.querySelectorAll('.popup__input'));
-  const submitButtonSelector = formSelector.querySelector('.popup__button');
+export function setEventListeners(formSelector, enableValidation) {
+  const inputList = Array.from(formSelector.querySelectorAll(`${enableValidation.inputSelector}`));
+    
+  const submitButtonSelector = formSelector.querySelector(`${enableValidation.submitButtonSelector}`);
 
   inputList.forEach((inputSelector) => {
     inputSelector.addEventListener('input', () => {
-      checkInputValidity(formSelector, inputSelector);
-      toggleButtonState(inputList, submitButtonSelector);
+      checkInputValidity(formSelector, inputSelector, enableValidation);
+      toggleButtonState(inputList, submitButtonSelector, enableValidation);
     });
 
-    toggleButtonState(inputList, submitButtonSelector);
-  });
-}
-
-// @todo: Функция отмена перезагрузки формы и вызова установки слушателя на инпуты формы
-
-export function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
-  formList.forEach((formSelector) => {
-    setEventListeners(formSelector);
-    formSelector.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    });
+    toggleButtonState(inputList, submitButtonSelector, enableValidation);
   });
 }
 
 // @todo: Функция проверка правильности введенных данных
 
-function checkInputValidity(formSelector, inputSelector) {
+function checkInputValidity(formSelector, inputSelector, enableValidation) {
   if (!inputSelector.validity.valid) {
     showInputError(
       formSelector,
       inputSelector,
-      inputSelector.validationMessage
+      inputSelector.validationMessage,
+      enableValidation
     );
   } else {
-    hideInputError(formSelector, inputSelector);
+    hideInputError(formSelector, inputSelector, enableValidation);
   }
 }

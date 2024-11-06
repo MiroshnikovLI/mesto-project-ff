@@ -76,7 +76,7 @@ export const apiCard = () => {
 };
 
 export const apiEditProfileImage = (image) => {
-  return fetch(`${config.baseUrl}users/me/avatar`, {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({

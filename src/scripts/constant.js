@@ -14,6 +14,7 @@ export const titleImage = popupImages.querySelector('.popup__caption');
 export const popupNewProfileImage = pageContainer.querySelector(
   '.popup_edit_profile-image'
 );
+export const popupAll = pageContainer.querySelectorAll('.popup');
 
 // @todo: Профиль
 
@@ -92,3 +93,14 @@ export const massUserInfo = {
   avatar: '',
   id: '',
 };
+
+// @todo: Массив валидации 
+
+export const enableValidation = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}; 

@@ -4,7 +4,6 @@ export function openPopup(popup) {
   popup.classList.add('popup_is-opened');
 
   document.addEventListener('keydown', closePopupEsc);
-  popup.addEventListener('click', closePopupClick);
 }
 
 // @todo: Функция закрытия попап
@@ -12,7 +11,6 @@ export function openPopup(popup) {
 export function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', closePopupEsc);
-  popup.removeEventListener('click', closePopupClick);
 }
 
 export function closePopupEsc(evt) {
@@ -24,7 +22,6 @@ export function closePopupEsc(evt) {
 
 export function closePopupClick(evt) {
   if (!evt.target.closest('.popup__content')) {
-    const openedPopup = document.querySelector('.popup_is-opened');
-    closePopup(openedPopup);
+    closePopup(evt.target);
   }
 }
