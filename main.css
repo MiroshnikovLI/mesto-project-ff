@@ -390,7 +390,6 @@ template {
 }
 
 @media screen and (max-width: 1140px) {
-
   .page__section {
     width: calc(100% - 40px);
   }
@@ -407,7 +406,6 @@ template {
 }
 
 @media screen and (max-width: 480px) {
-
   .header__logo {
     width: 104px;
     height: 24px;
@@ -440,7 +438,6 @@ template {
 }
 
 @media screen and (max-width: 480px) {
-
   .header {
     min-height: 85px;
   }
@@ -463,7 +460,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .footer__copyright {
     font-size: 14px;
     line-height: 17px;
@@ -477,7 +473,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .footer {
     padding: 30px 0 36px;
   }
@@ -491,7 +486,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .profile__description {
     font-size: 14px;
     line-height: 17px;
@@ -499,7 +493,6 @@ template {
 }
 
 @media screen and (max-width: 480px) {
-
   .profile__description {
     width: 100%;
     margin: 7px 0 0;
@@ -529,7 +522,6 @@ template {
 }
 
 @media screen and (max-width: 740px) {
-
   .profile__add-button {
     width: 50px;
     height: 50px;
@@ -537,7 +529,6 @@ template {
 }
 
 @media screen and (max-width: 480px) {
-
   .profile__add-button {
     width: 100%;
   }
@@ -566,7 +557,6 @@ template {
 }
 
 @media screen and (max-width: 480px) {
-
   .profile__edit-button {
     width: 18px;
     height: 18px;
@@ -584,7 +574,6 @@ template {
 }
 
 @media screen and (max-width: 740px) {
-
   .profile__info {
     grid-template-columns: minmax(auto, 228px) auto;
     grid-gap: 9px 5px;
@@ -592,14 +581,12 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .profile__info {
     grid-template-columns: minmax(auto, 195px) auto;
   }
 }
 
 @media screen and (max-width: 480px) {
-
   .profile__info {
     width: 100%;
     display: flex;
@@ -621,7 +608,6 @@ template {
 }
 
 @media screen and (max-width: 740px) {
-
   .profile__title {
     font-size: 32px;
     line-height: 38px;
@@ -629,7 +615,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .profile__title {
     font-size: 27px;
     line-height: 33px;
@@ -637,7 +622,6 @@ template {
 }
 
 @media screen and (max-width: 480px) {
-
   .profile__title {
     min-width: 201px;
   }
@@ -668,14 +652,12 @@ template {
 }
 
 @media screen and (max-width: 740px) {
-
   .profile__image {
     margin: 0 10px 0 0;
   }
 }
 
 @media screen and (max-width: 480px) {
-
   .profile__image {
     margin-right: 0;
   }
@@ -690,7 +672,6 @@ template {
 }
 
 @media screen and (max-width: 480px) {
-
   .profile {
     padding: 43px 0;
     flex-direction: column;
@@ -717,7 +698,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .places {
     padding: 15px 0 18px;
   }
@@ -838,7 +818,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .popup__content {
     width: 100%;
     max-width: calc(100% - 80px);
@@ -895,7 +874,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .popup__title {
     font-size: 18px;
     line-height: 22px;
@@ -923,7 +901,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .popup__title {
     font-size: 12px;
     line-height: 15px;
@@ -959,7 +936,6 @@ template {
 }
 
 @media screen and (max-width: 568px) {
-
   .popup__button {
     font-size: 14px;
     line-height: 17px;
@@ -1095,7 +1071,6 @@ template {
 }
 
 @keyframes load {
-
   0% {
     opacity: 0;
   }
@@ -1110,7 +1085,6 @@ template {
 }
 
 @keyframes seve {
-
   0% {
     background: linear-gradient(
       90deg,
