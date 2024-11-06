@@ -53,7 +53,6 @@ export const errorConnect = pageContainer.querySelector('.error__connect');
 export const errorTitle = errorConnect.querySelector('.error__title');
 export const errorText = errorConnect.querySelector('.error__text');
 
-
 // @todo: Контейнер загрузки страницы
 
 export const conteinerLoad = pageContainer.querySelector('.places');
@@ -94,7 +93,7 @@ export const massUserInfo = {
   id: '',
 };
 
-// @todo: Массив валидации 
+// @todo: Массив валидации
 
 export const enableValidation = {
   formSelector: '.popup__form',
@@ -102,5 +101,5 @@ export const enableValidation = {
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}; 
+  errorClass: 'popup__error_visible',
+};

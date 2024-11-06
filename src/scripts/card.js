@@ -1,4 +1,4 @@
-import { cardTemplate, } from './constant.js';
+import { cardTemplate } from './constant.js';
 import {
   config,
   apiLikePost,
@@ -66,7 +66,9 @@ export function createCard(
     }
   });
 
-  deleteButtonCard.addEventListener('click', (card) => openPopupDeleteCard(card, cardsValues['_id']));
+  deleteButtonCard.addEventListener('click', (card) =>
+    openPopupDeleteCard(card, cardsValues['_id'])
+  );
 
   likeButtonCard.addEventListener('click', (evt) =>
     likeCard(evt, cardsValues, likeInfo)

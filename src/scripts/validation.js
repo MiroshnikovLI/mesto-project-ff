@@ -1,6 +1,11 @@
 // @todo: Функция показать ошибку валидации
 
-export function showInputError(formSelector, inputSelector, errorMessage, enableValidation) {
+export function showInputError(
+  formSelector,
+  inputSelector,
+  errorMessage,
+  enableValidation
+) {
   const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
 
   if (inputSelector.validity.patternMismatch) {
@@ -18,7 +23,7 @@ export function showInputError(formSelector, inputSelector, errorMessage, enable
 
 export function hideInputError(formSelector, inputSelector, enableValidation) {
   const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
-    
+
   errorElement.classList.remove(`${enableValidation.errorClass}`);
   errorElement.textContent = '';
   inputSelector.classList.remove(`${enableValidation.inputErrorClass}`);
@@ -34,22 +39,34 @@ function hasInvalidInput(inputList) {
 
 // @todo: Функция состояние кнопки формы
 
-export function toggleButtonState(inputList, submitButtonSelector, enableValidation) {
+export function toggleButtonState(
+  inputList,
+  submitButtonSelector,
+  enableValidation
+) {
   if (hasInvalidInput(inputList)) {
     submitButtonSelector.disabled = true;
-    submitButtonSelector.classList.add(`${enableValidation.inactiveButtonClass}`);
+    submitButtonSelector.classList.add(
+      `${enableValidation.inactiveButtonClass}`
+    );
   } else {
     submitButtonSelector.disabled = false;
-    submitButtonSelector.classList.remove(`${enableValidation.inactiveButtonClass}`);
+    submitButtonSelector.classList.remove(
+      `${enableValidation.inactiveButtonClass}`
+    );
   }
 }
 
 // @todo: Функция установки слушателя на формы
 
 export function setEventListeners(formSelector, enableValidation) {
-  const inputList = Array.from(formSelector.querySelectorAll(`${enableValidation.inputSelector}`));
-    
-  const submitButtonSelector = formSelector.querySelector(`${enableValidation.submitButtonSelector}`);
+  const inputList = Array.from(
+    formSelector.querySelectorAll(`${enableValidation.inputSelector}`)
+  );
+
+  const submitButtonSelector = formSelector.querySelector(
+    `${enableValidation.submitButtonSelector}`
+  );
 
   inputList.forEach((inputSelector) => {
     inputSelector.addEventListener('input', () => {

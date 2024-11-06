@@ -28,8 +28,8 @@ import {
   popupAll,
   enableValidation,
 } from './constant.js';
-import { openPopup, closePopup, closePopupClick, } from './modal.js';
-import { createCard, likeCard, deleteCard, } from './card.js';
+import { openPopup, closePopup, closePopupClick } from './modal.js';
+import { createCard, likeCard, deleteCard } from './card.js';
 import {
   config,
   apiCard,
@@ -38,7 +38,7 @@ import {
   apiEditProfiInfo,
   apiNewPlace,
 } from './api.js';
-import { setEventListeners, } from './validation.js';
+import { setEventListeners } from './validation.js';
 
 // @todo: Функции вывода информации пользователя на страницу
 
@@ -66,8 +66,14 @@ function showCards() {
 
       apiCard.forEach((cards) => {
         cardsContainer.append(
-          createCard(cards, massUserInfo.id, openPopupDeleteCard, likeCard, clickForImgCard)
-        )
+          createCard(
+            cards,
+            massUserInfo.id,
+            openPopupDeleteCard,
+            likeCard,
+            clickForImgCard
+          )
+        );
       });
     })
     .then(() => conteinerLoad.classList.remove('load'))
@@ -79,13 +85,15 @@ showCards();
 // todo: Функция отмена стандартного поведения формы и вызова функции валидации
 
 function validation(enableValidation) {
-  const formList = Array.from(document.querySelectorAll(`${enableValidation.formSelector}`));
+  const formList = Array.from(
+    document.querySelectorAll(`${enableValidation.formSelector}`)
+  );
 
-  formList.forEach((formSelector) => { 
+  formList.forEach((formSelector) => {
     setEventListeners(formSelector, enableValidation);
-    formSelector.addEventListener('submit', (evt) => { 
-      evt.preventDefault(); 
-    }); 
+    formSelector.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    });
   });
 }
 
@@ -95,13 +103,15 @@ validation(enableValidation);
 
 popupAll.forEach((popup) => {
   popup.addEventListener('click', closePopupClick);
-})
+});
 
 formEditProfileImage.addEventListener('submit', (evt) =>
   editProfileImage(evt, inputEditProfileImage.value)
 );
 
-formDeleteCards.addEventListener('submit', (evt) => deleteCard(evt, deletePost, closePopup, popupDeleteCard));
+formDeleteCards.addEventListener('submit', (evt) =>
+  deleteCard(evt, deletePost, closePopup, popupDeleteCard)
+);
 
 profileImage.addEventListener('click', () => openPopup(popupNewProfileImage));
 
@@ -141,7 +151,7 @@ function editProfile(evt, title, description) {
     })
     .then(() => closePopup(popupEditProfil))
     .catch((err) => config.err(err))
-    .finally(() => infoButtonSeve(evt)); 
+    .finally(() => infoButtonSeve(evt));
 }
 
 // @todo: Функции уведомления о сохранение
@@ -182,7 +192,7 @@ function submitAddCardForm(evt, userId) {
     .then(config.ressJson)
     .then((ress) => {
       cardsContainer.prepend(
-        createCard(ress, userId, openPopupDeleteCard, likeCard, clickForImgCard )
+        createCard(ress, userId, openPopupDeleteCard, likeCard, clickForImgCard)
       );
     })
     .then(() => {
@@ -190,7 +200,7 @@ function submitAddCardForm(evt, userId) {
       closePopup(popuppNewCard);
       evt.target.reset();
     })
-    .catch((err) => { 
+    .catch((err) => {
       config.err(err);
     })
     .finally(() => {
@@ -208,7 +218,7 @@ function editProfileImage(evt, image) {
       profileImage.setAttribute('style', `background-image: url('${image}')`);
     })
     .then(() => {
-      closePopup(popupNewProfileImage)
+      closePopup(popupNewProfileImage);
       evt.target.reset();
     })
     .catch((err) => config.err(err))
@@ -217,7 +227,7 @@ function editProfileImage(evt, image) {
 
 // @todo: Функция открытия попапа удаления карточки
 
-export function openPopupDeleteCard (card, cardsValues) {
+export function openPopupDeleteCard(card, cardsValues) {
   openPopup(popupDeleteCard);
 
   deletePost.idPost = cardsValues;

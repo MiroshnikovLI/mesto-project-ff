@@ -48,7 +48,7 @@ export const apiDeleteCard = (deletePost) => {
   return fetch(`${config.baseUrl}/cards/${deletePost.idPost}`, {
     method: 'DELETE',
     headers: config.headers,
-  })
+  });
 };
 
 export const apiUserInfo = () => {
@@ -61,18 +61,20 @@ export const apiLikePost = (post) => {
   return fetch(`${config.baseUrl}/cards/likes/${post}`, {
     method: 'PUT',
     headers: config.headers,
-  })
+  });
 };
 
 export const apiDeleteLikePost = (post) => {
   return fetch(`${config.baseUrl}/cards/likes/${post}`, {
     method: 'DELETE',
     headers: config.headers,
-  })
+  });
 };
 
 export const apiCard = () => {
-  return fetch(`${config.baseUrl}/cards`, { headers: config.headers }).then(config.ressJson);
+  return fetch(`${config.baseUrl}/cards`, { headers: config.headers }).then(
+    config.ressJson
+  );
 };
 
 export const apiEditProfileImage = (image) => {
@@ -82,7 +84,7 @@ export const apiEditProfileImage = (image) => {
     body: JSON.stringify({
       avatar: image,
     }),
-  })
+  });
 };
 
 export const apiEditProfiInfo = (title, description) => {
@@ -93,7 +95,7 @@ export const apiEditProfiInfo = (title, description) => {
       name: title,
       about: description,
     }),
-  })
+  });
 };
 
 export const apiNewPlace = (newCard) => {
@@ -104,5 +106,5 @@ export const apiNewPlace = (newCard) => {
       name: newCard.name,
       link: newCard.link,
     }),
-  })
+  });
 };
