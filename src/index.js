@@ -107,7 +107,7 @@ import {
     popup.addEventListener('click', closePopupClick);
   });
   
-  formEditProfileImage.addEventListener('submit', (evt) =>
+  formEditProfileImage.addEventListener('submit', (evt) => 
     editProfileImage(evt, inputEditProfileImage.value)
   );
   
@@ -115,11 +115,18 @@ import {
     deleteCard(evt, deletePost, closePopup, popupDeleteCard)
   );
   
-  profileImage.addEventListener('click', () => openPopup(popupNewProfileImage));
+  profileImage.addEventListener('click', () => {
+    clearFormErrors(formEditProfileImage);
+    openPopup(popupNewProfileImage);
+  });
   
-  buttonNewCard.addEventListener('click', () => openPopup(popuppNewCard));
+  buttonNewCard.addEventListener('click', () => {
+    clearFormErrors(formNewPlace)
+    openPopup(popuppNewCard)
+  });
   
   buttonOpenEditProfileFrom.addEventListener('click', (evt) => {
+    clearFormErrors(formEditProfile);
     openPopup(popupEditProfil);
     inputName.value = profileName.textContent;
     inputDescription.value = profileDescription.textContent;
@@ -236,3 +243,11 @@ import {
     deletePost.target = card.target;
   }
   
+  // @todo: Функция очистки ошибок форм при открытие модального окна
+
+  function clearFormErrors (form) {
+    form.reset();
+    const errorElement = form.querySelectorAll('.popup__error');
+
+    errorElement.forEach((error) => error.textContent = '')
+  }

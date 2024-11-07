@@ -7,7 +7,6 @@ export function showInputError(
   enableValidation
 ) {
   const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
-
   if (inputSelector.validity.patternMismatch) {
     errorElement.textContent = inputSelector.dataset.errorMessage;
     errorElement.classList.add(`${enableValidation.errorClass}`);
@@ -81,14 +80,39 @@ export function setEventListeners(formSelector, enableValidation) {
 // @todo: Функция проверка правильности введенных данных
 
 function checkInputValidity(formSelector, inputSelector, enableValidation) {
-  if (!inputSelector.validity.valid) {
+    
+  if (!(typeof inputSelector.attributes.maxlenght === "undefined")) { 
+    if (inputSelector.value.length > inputSelector.attributes.maxlenght.value) {
+      const errorMessage = `Максимальное количество символов: ${inputSelector.attributes.maxlenght.value}. Длина текста сейчас: ${inputSelector.value.length} символ.`
+      showInputError(
+        formSelector,
+        inputSelector,
+        errorMessage,
+        enableValidation
+      );
+    } else if (!inputSelector.validity.valid) {
+      showInputError(
+        formSelector,
+        inputSelector,
+        inputSelector.validationMessage,
+        enableValidation
+      ); 
+    } else {
+      showInputError(
+        formSelector,
+        inputSelector,
+        inputSelector.validationMessage,
+        enableValidation
+      );
+    }
+  } else if (!inputSelector.validity.valid) {
     showInputError(
       formSelector,
       inputSelector,
       inputSelector.validationMessage,
       enableValidation
-    );
+    ); 
   } else {
-    hideInputError(formSelector, inputSelector, enableValidation);
+  hideInputError(formSelector, inputSelector, enableValidation);
   }
 }
