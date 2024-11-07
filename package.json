@@ -32,8 +32,6 @@
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
-    "core-js": "^3.38.1",
-    "jshint": "^2.13.6",
-    "prettier": "^3.3.3"
+    "core-js": "^3.38.1"
   }
 }
