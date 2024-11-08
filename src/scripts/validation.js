@@ -107,17 +107,18 @@ function checkInputValidity(formSelector, inputSelector, enableValidation) {
       enableValidation
     );
   } else {
-  hideInputError(formSelector, inputSelector, enableValidation);
+    hideInputError(formSelector, inputSelector, enableValidation);
   }
 }
 
-
 // @todo: Функция очистки ошибок форм при открытие модального окна
 
-export function clearValidation (form) {
+export function clearValidation(form) {
   const errorElement = form.querySelectorAll('.popup__error');
   const inputError = form.querySelectorAll('.popup__input');
 
-  inputError.forEach((error) => error.classList.remove('popup__input_type_error'))
-  errorElement.forEach((error) => error.textContent = '')
+  inputError.forEach((error) =>
+    error.classList.remove('popup__input_type_error')
+  );
+  errorElement.forEach((error) => (error.textContent = ''));
 }
