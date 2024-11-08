@@ -3,12 +3,16 @@
 
 import { errorConnect, errorTitle, errorText } from './constant.js';
 
-export const config = {
+const config = {
   baseUrl: 'https://nomoreparties.co/v1/wff-cohort-25',
   headers: {
     authorization: '38a628a1-9dfc-4f10-bcd6-8a3b9999ace6',
     'Content-Type': 'application/json',
   },
+  
+}
+
+export const configSetings = {
   ressJson: (ress) => {
     if (ress.ok) {
       return ress.json();
@@ -48,33 +52,38 @@ export const apiDeleteCard = (deletePost) => {
   return fetch(`${config.baseUrl}/cards/${deletePost.idPost}`, {
     method: 'DELETE',
     headers: config.headers,
-  });
+  })
+  .then(configSetings.ressJson);
 };
 
 export const apiUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`, { headers: config.headers }).then(
     config.ressJson
-  );
+  )
+  .then(configSetings.ressJson);
 };
 
 export const apiLikePost = (post) => {
   return fetch(`${config.baseUrl}/cards/likes/${post}`, {
     method: 'PUT',
     headers: config.headers,
-  });
+  })
+  .then(configSetings.ressJson);
 };
 
 export const apiDeleteLikePost = (post) => {
   return fetch(`${config.baseUrl}/cards/likes/${post}`, {
     method: 'DELETE',
     headers: config.headers,
-  });
+  })
+  .then(configSetings.ressJson);
 };
 
 export const apiCard = () => {
   return fetch(`${config.baseUrl}/cards`, { headers: config.headers }).then(
     config.ressJson
-  );
+  )
+  .then(configSetings.ressJson);
 };
 
 export const apiEditProfileImage = (image) => {
@@ -84,7 +93,8 @@ export const apiEditProfileImage = (image) => {
     body: JSON.stringify({
       avatar: image,
     }),
-  });
+  })
+  .then(configSetings.ressJson);
 };
 
 export const apiEditProfiInfo = (title, description) => {
@@ -95,7 +105,8 @@ export const apiEditProfiInfo = (title, description) => {
       name: title,
       about: description,
     }),
-  });
+  })
+  .then(configSetings.ressJson);
 };
 
 export const apiNewPlace = (newCard) => {
@@ -106,5 +117,6 @@ export const apiNewPlace = (newCard) => {
       name: newCard.name,
       link: newCard.link,
     }),
-  });
+  })
+  .then(configSetings.ressJson);
 };

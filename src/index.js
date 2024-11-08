@@ -28,19 +28,19 @@ import {
     conteinerLoad,
     deletePost,
     popupAll,
-    enableValidation,
+    cardElement,
   } from './scripts/constant.js';
   import { openPopup, closePopup, closePopupClick } from './scripts/modal.js';
   import { createCard, likeCard, deleteCard } from './scripts/card.js';
   import {
-    config,
     apiCard,
     apiUserInfo,
     apiEditProfileImage,
     apiEditProfiInfo,
     apiNewPlace,
+    configSetings,
   } from './scripts/api.js';
-  import { setEventListeners } from './scripts/validation.js';
+  import { enableValidation, clearValidation, } from './scripts/validation.js';
   
   // @todo: Функции вывода информации пользователя на страницу
   
@@ -84,82 +84,73 @@ import {
   
   showCards();
   
-  // todo: Функция отмена стандартного поведения формы и вызова функции валидации
-  
-  function validation(enableValidation) {
-    const formList = Array.from(
-      document.querySelectorAll(`${enableValidation.formSelector}`)
-    );
-  
-    formList.forEach((formSelector) => {
-      setEventListeners(formSelector, enableValidation);
-      formSelector.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-      });
-    });
-  }
-  
-  validation(enableValidation);
+  enableValidation(cardElement);
   
   // @todo: Слушатели событий
   
-  popupAll.forEach((popup) => {
-    popup.addEventListener('click', closePopupClick);
-  });
-  
-  formEditProfileImage.addEventListener('submit', (evt) => 
-    editProfileImage(evt, inputEditProfileImage.value)
-  );
-  
-  formDeleteCards.addEventListener('submit', (evt) =>
-    deleteCard(evt, deletePost, closePopup, popupDeleteCard)
-  );
-  
-  profileImage.addEventListener('click', () => {
-    clearFormErrors(formEditProfileImage);
-    openPopup(popupNewProfileImage);
-  });
-  
-  buttonNewCard.addEventListener('click', () => {
-    clearFormErrors(formNewPlace)
-    openPopup(popuppNewCard)
-  });
-  
-  buttonOpenEditProfileFrom.addEventListener('click', (evt) => {
-    clearFormErrors(formEditProfile);
-    openPopup(popupEditProfil);
-    inputName.value = profileName.textContent;
-    inputDescription.value = profileDescription.textContent;
-  });
-  
-  formEditProfile.addEventListener('submit', (evt) =>
-    editProfile(evt, inputName.value, inputDescription.value)
-  );
-  
-  formNewPlace.addEventListener('submit', (evt) =>
-    submitAddCardForm(evt, massUserInfo.id)
-  );
-  
-  buttonClosePoppap.forEach((btn) => {
-    const popup = btn.closest('.popup');
-    btn.addEventListener('click', (evt) => {
-      closePopup(popup);
+    // Слушатели на кнопки сайта
+    
+    profileImage.addEventListener('click', () => {
+      clearValidation(popupNewProfileImage);
+      openPopup(popupNewProfileImage);
     });
-  });
+
+    buttonNewCard.addEventListener('click', () => {
+      clearValidation(popuppNewCard);
+      openPopup(popuppNewCard)
+    });
+
+    buttonOpenEditProfileFrom.addEventListener('click', (evt) => {
+      enableValidation(cardElement);
+      openPopup(popupEditProfil);
+      inputName.value = profileName.textContent;
+      inputDescription.value = profileDescription.textContent;
+    });
+
+    // Слушатели на попапы сайта
+    
+    popupAll.forEach((popup) => {
+      popup.addEventListener('click', closePopupClick);
+    });
+  
+    buttonClosePoppap.forEach((btn) => {
+      const popup = btn.closest('.popup');
+      btn.addEventListener('click', (evt) => {
+        closePopup(popup);
+      });
+    });
+
+    // Слушатели на отправку формы сайта
+
+    formEditProfileImage.addEventListener('submit', (evt) => 
+      editProfileImage(evt, inputEditProfileImage.value)
+    );
+  
+    formDeleteCards.addEventListener('submit', (evt) =>
+      deleteCard(evt, deletePost, closePopup, popupDeleteCard)
+    );
+
+    formEditProfile.addEventListener('submit', (evt) => 
+      editProfile(evt, inputName.value, inputDescription.value)
+    );
+    
+    formNewPlace.addEventListener('submit', (evt) => 
+      submitAddCardForm(evt, massUserInfo.id)
+    );
   
   // @todo: Функция редактирования профиля
   
   function editProfile(evt, title, description) {
+    evt.preventDefault();
     infoButtonSeve(evt, true);
   
     apiEditProfiInfo(title, description)
-      .then(config.ressJson)
       .then((ress) => {
         profileName.textContent = ress.name;
         profileDescription.textContent = ress.about;
       })
       .then(() => closePopup(popupEditProfil))
-      .catch((err) => config.err(err))
+      .catch((err) => configSetings.err(err))
       .finally(() => infoButtonSeve(evt));
   }
   
@@ -173,7 +164,7 @@ import {
     } else {
       button.textContent = 'Сохранить';
       button.classList.remove('popup__button-seve');
-      validation(enableValidation);
+      enableValidation(cardElement);
     }
   }
   
@@ -190,6 +181,7 @@ import {
   // @todo: Функция добавления новой карточки
   
   function submitAddCardForm(evt, userId) {
+    evt.preventDefault();
     infoButtonSeve(evt, true);
   
     const newCard = {};
@@ -198,19 +190,17 @@ import {
     newCard.link = newLink.value;
   
     apiNewPlace(newCard)
-      .then(config.ressJson)
       .then((ress) => {
         cardsContainer.prepend(
           createCard(ress, userId, openPopupDeleteCard, likeCard, clickForImgCard)
         );
       })
       .then(() => {
-        infoButtonSeve(evt);
         closePopup(popuppNewCard);
         evt.target.reset();
       })
       .catch((err) => {
-        config.err(err);
+        configSetings.err(err);
       })
       .finally(() => {
         infoButtonSeve(evt);
@@ -220,6 +210,7 @@ import {
   // @todo: Функция редактирвания изображения профиля
   
   function editProfileImage(evt, image) {
+    evt.preventDefault();
     infoButtonSeve(evt, true);
   
     apiEditProfileImage(image)
@@ -230,24 +221,16 @@ import {
         closePopup(popupNewProfileImage);
         evt.target.reset();
       })
-      .catch((err) => config.err(err))
+      .catch((err) => configSetings.err(err))
       .finally(() => infoButtonSeve(evt));
   }
   
   // @todo: Функция открытия попапа удаления карточки
   
-  export function openPopupDeleteCard(card, cardsValues) {
+  export function openPopupDeleteCard(evt, cardsValues) {
     openPopup(popupDeleteCard);
   
     deletePost.idPost = cardsValues;
-    deletePost.target = card.target;
+    deletePost.target = evt.target;
   }
   
-  // @todo: Функция очистки ошибок форм при открытие модального окна
-
-  function clearFormErrors (form) {
-    form.reset();
-    const errorElement = form.querySelectorAll('.popup__error');
-
-    errorElement.forEach((error) => error.textContent = '')
-  }

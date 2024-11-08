@@ -1,6 +1,18 @@
+// todo: Функция отмена стандартного поведения формы и вызова функции валидации
+
+export function enableValidation(enableValidation) {
+  const formList = Array.from(
+    document.querySelectorAll(`${enableValidation.formSelector}`)
+  );
+
+  formList.forEach((formSelector) => {
+    setEventListeners(formSelector, enableValidation);
+  });
+}
+
 // @todo: Функция показать ошибку валидации
 
-export function showInputError(
+function showInputError(
   formSelector,
   inputSelector,
   errorMessage,
@@ -58,7 +70,7 @@ export function toggleButtonState(
 
 // @todo: Функция установки слушателя на формы
 
-export function setEventListeners(formSelector, enableValidation) {
+function setEventListeners(formSelector, enableValidation) {
   const inputList = Array.from(
     formSelector.querySelectorAll(`${enableValidation.inputSelector}`)
   );
@@ -80,39 +92,32 @@ export function setEventListeners(formSelector, enableValidation) {
 // @todo: Функция проверка правильности введенных данных
 
 function checkInputValidity(formSelector, inputSelector, enableValidation) {
-    
-  if (!(typeof inputSelector.attributes.maxlenght === "undefined")) { 
-    if (inputSelector.value.length > inputSelector.attributes.maxlenght.value) {
-      const errorMessage = `Максимальное количество символов: ${inputSelector.attributes.maxlenght.value}. Длина текста сейчас: ${inputSelector.value.length} символ.`
-      showInputError(
-        formSelector,
-        inputSelector,
-        errorMessage,
-        enableValidation
-      );
-    } else if (!inputSelector.validity.valid) {
-      showInputError(
-        formSelector,
-        inputSelector,
-        inputSelector.validationMessage,
-        enableValidation
-      ); 
-    } else {
-      showInputError(
-        formSelector,
-        inputSelector,
-        inputSelector.validationMessage,
-        enableValidation
-      );
-    }
+  if (inputSelector.value.length === inputSelector.maxLength) {
+    showInputError(
+      formSelector,
+      inputSelector,
+      `Максимальное количество символов ${inputSelector.maxLength}`,
+      enableValidation
+    );
   } else if (!inputSelector.validity.valid) {
     showInputError(
       formSelector,
       inputSelector,
       inputSelector.validationMessage,
       enableValidation
-    ); 
+    );
   } else {
   hideInputError(formSelector, inputSelector, enableValidation);
   }
+}
+
+
+// @todo: Функция очистки ошибок форм при открытие модального окна
+
+export function clearValidation (form) {
+  const errorElement = form.querySelectorAll('.popup__error');
+  const inputError = form.querySelectorAll('.popup__input');
+
+  inputError.forEach((error) => error.classList.remove('popup__input_type_error'))
+  errorElement.forEach((error) => error.textContent = '')
 }

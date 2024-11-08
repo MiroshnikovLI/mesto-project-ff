@@ -1,6 +1,6 @@
 import { cardTemplate } from './constant.js';
 import {
-  config,
+  configSetings,
   apiLikePost,
   apiDeleteLikePost,
   apiDeleteCard,
@@ -11,20 +11,18 @@ import {
 export function likeCard(like, cardsValues, likeInfo) {
   if (like.target.classList.value.includes('card__like-button_is-active')) {
     apiDeleteLikePost(cardsValues['_id'])
-      .then(config.ressJson)
       .then((ress) => {
         like.target.classList.remove('card__like-button_is-active');
         likeInfo.textContent = ress.likes.length;
       })
-      .catch((err) => config.err(err));
+      .catch((err) => configSetings.err(err));
   } else {
     apiLikePost(cardsValues['_id'])
-      .then(config.ressJson)
       .then((ress) => {
         like.target.classList.add('card__like-button_is-active');
         likeInfo.textContent = ress.likes.length;
       })
-      .catch((err) => config.err(err));
+      .catch((err) => configSetings.err(err));
   }
 }
 
@@ -66,8 +64,8 @@ export function createCard(
     }
   });
 
-  deleteButtonCard.addEventListener('click', (card) =>
-    openPopupDeleteCard(card, cardsValues['_id'])
+  deleteButtonCard.addEventListener('click', (evt) =>
+    openPopupDeleteCard(evt, cardsValues['_id'])
   );
 
   likeButtonCard.addEventListener('click', (evt) =>
@@ -84,12 +82,11 @@ export function createCard(
 export function deleteCard(evt, deletePost, closePopup, popupDeleteCard) {
   evt.preventDefault();
   apiDeleteCard(deletePost)
-    .then(config.ressJson)
     .then(() => deletePost.target.closest('.card').remove())
     .then(() => {
       deletePost.idPost = '';
       deletePost.target = '';
       closePopup(popupDeleteCard);
     })
-    .catch((err) => config.err(err));
+    .catch((err) => configSetings.err(err));
 }
