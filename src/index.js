@@ -101,7 +101,7 @@ import {
     });
 
     buttonOpenEditProfileFrom.addEventListener('click', (evt) => {
-      enableValidation(cardElement);
+      enableValidation(popupEditProfil);
       openPopup(popupEditProfil);
       inputName.value = profileName.textContent;
       inputDescription.value = profileDescription.textContent;
