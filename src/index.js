@@ -101,7 +101,7 @@ buttonNewCard.addEventListener('click', () => {
 });
 
 buttonOpenEditProfileFrom.addEventListener('click', (evt) => {
-  enableValidation(popupEditProfil);
+  clearValidation(popupEditProfil);
   openPopup(popupEditProfil);
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
@@ -149,7 +149,10 @@ function editProfile(evt, title, description) {
       profileName.textContent = ress.name;
       profileDescription.textContent = ress.about;
     })
-    .then(() => closePopup(popupEditProfil))
+    .then(() => {
+      closePopup(popupEditProfil);
+      evt.target.reset();
+    })
     .catch((err) => configSetings.err(err))
     .finally(() => infoButtonSeve(evt));
 }
