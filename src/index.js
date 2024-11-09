@@ -28,7 +28,7 @@ import {
   conteinerLoad,
   deletePost,
   popupAll,
-  cardElement,
+  validationElementClasses,
 } from './scripts/constant.js';
 import { openPopup, closePopup, closePopupClick } from './scripts/modal.js';
 import { createCard, likeCard, deleteCard } from './scripts/card.js';
@@ -84,24 +84,24 @@ function showCards() {
 
 showCards();
 
-enableValidation(cardElement);
+enableValidation(validationElementClasses);
 
 // @todo: Слушатели событий
 
 // Слушатели на кнопки сайта
 
 profileImage.addEventListener('click', () => {
-  clearValidation(popupNewProfileImage);
+  clearValidation(popupNewProfileImage, validationElementClasses);
   openPopup(popupNewProfileImage);
 });
 
 buttonNewCard.addEventListener('click', () => {
-  clearValidation(popuppNewCard);
+  clearValidation(popuppNewCard, validationElementClasses);
   openPopup(popuppNewCard);
 });
 
 buttonOpenEditProfileFrom.addEventListener('click', (evt) => {
-  clearValidation(popupEditProfil);
+  clearValidation(popupEditProfil, validationElementClasses);
   openPopup(popupEditProfil);
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
@@ -167,7 +167,7 @@ function infoButtonSeve(evt, trueFalse) {
   } else {
     button.textContent = 'Сохранить';
     button.classList.remove('popup__button-seve');
-    enableValidation(cardElement);
+    enableValidation(validationElementClasses);
   }
 }
 
@@ -236,3 +236,5 @@ export function openPopupDeleteCard(evt, cardsValues) {
   deletePost.idPost = cardsValues;
   deletePost.target = evt.target;
 }
+
+// 

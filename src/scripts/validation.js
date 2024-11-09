@@ -92,14 +92,7 @@ function setEventListeners(formSelector, enableValidation) {
 // @todo: Функция проверка правильности введенных данных
 
 function checkInputValidity(formSelector, inputSelector, enableValidation) {
-  if (inputSelector.value.length === inputSelector.maxLength) {
-    showInputError(
-      formSelector,
-      inputSelector,
-      `Максимальное количество символов ${inputSelector.maxLength}`,
-      enableValidation
-    );
-  } else if (!inputSelector.validity.valid) {
+if (!inputSelector.validity.valid) {
     showInputError(
       formSelector,
       inputSelector,
@@ -113,12 +106,12 @@ function checkInputValidity(formSelector, inputSelector, enableValidation) {
 
 // @todo: Функция очистки ошибок форм при открытие модального окна
 
-export function clearValidation(form) {
-  const errorElement = form.querySelectorAll('.popup__error');
-  const inputError = form.querySelectorAll('.popup__input');
+export function clearValidation(form, enableValidation) {
+  const errorElement = form.querySelectorAll(enableValidation.popupError);
+  const inputError = form.querySelectorAll(enableValidation.inputSelector);
 
   inputError.forEach((error) =>
-    error.classList.remove('popup__input_type_error')
+    error.classList.remove(enableValidation.inputErrorClass)
   );
   errorElement.forEach((error) => (error.textContent = ''));
 }

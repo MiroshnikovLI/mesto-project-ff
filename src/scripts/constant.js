@@ -95,13 +95,12 @@ export const massUserInfo = {
 
 // @todo: Массив валидации
 
-export const cardElement = {
+export const validationElementClasses = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
+  popupError: '.popup__error',
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible',
 };
-
-//
